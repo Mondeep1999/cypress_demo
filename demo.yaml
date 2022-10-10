@@ -27,19 +27,6 @@ jobs:
           release_name: Version ${{ steps.autotagger.outputs.version }}
           build: npm run build
           start: npm run dev
-          
-      
-#       - name: Rollback Release
-#         if: failure() && steps.Cypress_id.outputs.id != ''
-#         uses: action/action-rollback@stable
-#         with:
-#           # Using a known release ID
-#           id: ${{ steps.Cypress_id.id }}
-#           # Using a tag name
-#           tag: ${{ steps.autotagger.outputs.tagname }}
-#         env:
-#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
 
       - name: Send mail
         uses: dawidd6/action-send-mail@v3
