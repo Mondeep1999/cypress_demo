@@ -7,11 +7,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       
-      - name: Tag
-        id: autotagger
-        uses: butlerlogic/action-autotag@stable
-        with:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+#       - name: Tag
+#         id: autotagger
+#         uses: butlerlogic/action-autotag@stable
+#         with:
+#           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
       
       
       - name: Checkout
