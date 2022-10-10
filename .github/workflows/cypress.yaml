@@ -6,11 +6,11 @@ jobs:
   cypress-run:
     runs-on: ubuntu-latest
     steps:
-#      - name: Tag
-#        id: autotagger
-#        uses: butlerlogic/action-autotag@stable
-#        with:
-#          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+      - name: Tag
+        id: autotagger
+        uses: butlerlogic/action-autotag@stable
+        with:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
       
       
       - name: Checkout
@@ -19,7 +19,7 @@ jobs:
       # and run all Cypress tests
       - name: Cypress run
         id: Cypress_id
-        if: steps.autotagger.outputs.tagname != ''
+#        if: steps.autotagger.outputs.tagname != ''
         uses: cypress-io/github-action@v4.2.0 # use the explicit version number
         with:
           tag_name: ${{ steps.autotagger.outputs.tagname }}
