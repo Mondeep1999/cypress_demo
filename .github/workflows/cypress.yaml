@@ -29,7 +29,7 @@ jobs:
           
       - name: Rollback Release
         if: failure() && steps.Cypress_id.outputs.id != ''
-        uses: action/action-rollback@stable
+        uses: author/action-rollback@stable
         with:
           # Using a known release ID
           id: ${{ steps.Cypress_id.id }}
