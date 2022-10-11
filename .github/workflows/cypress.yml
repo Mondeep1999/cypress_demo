@@ -33,7 +33,7 @@ jobs:
         with:
           release_id: ${{ steps.Cypress_id.id }}
           tag: 'v1.0.0'
-          delete_orphan_tag: true
+          #delete_orphan_tag: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
