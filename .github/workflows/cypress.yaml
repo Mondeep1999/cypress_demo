@@ -30,10 +30,8 @@ jobs:
       - name: Rollback Release
         if: failure()
         uses: author/action-rollback@stable
-       with:
-          # Using a known release ID
+        with:
           release_id: ${{ steps.Cypress_id.id }}
-          # Using a tag name
           tag: ${{ steps.autotagger.outputs.tagname }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
