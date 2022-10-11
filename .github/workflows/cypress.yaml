@@ -31,8 +31,9 @@ jobs:
         if: failure()
         uses: author/action-rollback@stable
         with:
-          release_id: ${{ steps.Cypress_id.id }}
+          release_id: ${{ steps.create_release.id }}
           tag: ${{ steps.autotagger.outputs.tagname }}
+          delete_orphan_tag: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
