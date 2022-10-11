@@ -30,15 +30,15 @@ jobs:
       - name: Rollback Release
         if: failure()
         uses: author/action-rollback@stable
-        with:
+       with:
           # Using a known release ID
           release_id: ${{ steps.Cypress_id.id }}
           # Using a tag name
-          tag: 'v1.0.1'
-          #  If the release does not exist but the tag does, setting this to true will remove the tag.
-          delete_orphan_tag: true
+          tag: ${{ steps.autotagger.outputs.tagname }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+      
                     
       - name: Send mail
         uses: dawidd6/action-send-mail@v3
