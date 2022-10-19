@@ -19,7 +19,7 @@ jobs:
       # and run all Cypress tests
       - name: Cypress run
         id: Cypress_id
-        if: steps.autotagger.outputs.tagname != ''
+#        if: steps.autotagger.outputs.tagname != ''
         uses: cypress-io/github-action@v4.2.0 # use the explicit version number
         with:
           tag_name: ${{ steps.autotagger.outputs.tagname }}
@@ -31,7 +31,7 @@ jobs:
         if: failure()
         uses: author/action-rollback@stable
         with:
-#          release_id: ${{ steps.Cypress_id.id }}
+          release_id: ${{ steps.Cypress_id.id }}
           tag: 'v1.0.0'
           delete_orphan_tag: true
         env:
