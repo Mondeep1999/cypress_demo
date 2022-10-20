@@ -27,15 +27,15 @@ jobs:
           build: npm run build
           start: npm run dev
           
-      - name: Rollback Release
-        if: failure()
-        uses: author/action-rollback@stable
-        with:
-          release_id: ${{ steps.Cypress_id.id }}
-          tag: 'v1.0.0'
-          delete_orphan_tag: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#      - name: Rollback Release
+#        if: failure()
+#        uses: author/action-rollback@stable
+#        with:
+#          release_id: ${{ steps.Cypress_id.id }}
+#          tag: 'v1.0.0'
+#          delete_orphan_tag: true
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
       
                     
