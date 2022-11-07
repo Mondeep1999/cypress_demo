@@ -1,41 +1,33 @@
 version: 2.1
+orbs:
+  cypress: cypress-io/cypress@1
 
-# Define a job to be invoked later in a workflow.
-# See: https://circleci.com/docs/2.0/configuration-reference/#jobs
-  
-jobs:
-  cypress-run:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Tag
-        id: autotagger
-        uses: butlerlogic/action-autotag@stable
-        with:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-      
-      
-      - name: Checkout
-        uses: actions/checkout@v2
-        
-      - name: Cypress run
-        id: Cypress_id
-#        if: steps.autotagger.outputs.tagname != ''
-        uses: cypress-io/github-action@v4.2.0 # use the explicit version number
-        with:
-          tag_name: ${{ steps.autotagger.outputs.tagname }}
-          release_name: Version ${{ steps.autotagger.outputs.version }}
-          build: npm run build
-          start: npm run dev
+workflows:
+  build:
+    jobs:
+      - cypress/install:
+          build: 'npm run build' 
+
+      - cypress/run:
+          requires:
+            - cypress/install
+          record: true # record results on Cypress Dashboard
+          parallel: true # split all specs across machines
+          parallelism: 4 # use 4 CircleCI machines to finish quickly
+          group: 'all tests' # name this group "all tests" on the dashboard
+          start: 'npm start'
+                
+      # - cypress/rollback:
+      #     command: |
+      #                   curl --location --request POST 'https://circleci.com/api/v2/project/:vcs/:org/:repo/pipeline' \
+      #                   --header 'Content-Type: application/json' \
+      #                   -u "${CIRCLE_TOKEN}:" \
+      #                   -d '{
+      #                                 "parameters": {
+      #                                   "rollback_job": true
+      #                                 }
+      #                               }'
+
+      #     when: on_fail   
           
-      - name: run rollback job
-        command: |
-                  curl --location --request POST 'https://circleci.com/api/v2/project/:vcs/:org/:repo/pipeline' \
-                  --header 'Content-Type: application/json' \
-                  -u "${CIRCLE_TOKEN}:" \
-                  -d '{
-                                "parameters": {
-                                  "rollback_job": true
-                                }
-                              }'
-
-        when: on_fail  
+      
