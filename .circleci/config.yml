@@ -28,7 +28,7 @@ jobs:
           start: npm run dev
           
       - name: run rollback job
-            command: |
+            command: 
                 curl --location --request POST 'https://circleci.com/api/v2/project/:vcs/:org/:repo/pipeline' \
                 --header 'Content-Type: application/json' \
                 -u "${CIRCLE_TOKEN}:" \
