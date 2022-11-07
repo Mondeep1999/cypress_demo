@@ -27,15 +27,15 @@ jobs:
           build: npm run build
           start: npm run dev
           
-       name: run rollback job
-       command: |
-                curl --location --request POST 'https://circleci.com/api/v2/project/:vcs/:org/:repo/pipeline' \
-                --header 'Content-Type: application/json' \
-                -u "${CIRCLE_TOKEN}:" \
-                -d '{
-                              "parameters": {
-                                "rollback_job": true
-                              }
-                            }'
-      
-            when: on_fail    
+      - name: run rollback job
+        command: |
+                  curl --location --request POST 'https://circleci.com/api/v2/project/:vcs/:org/:repo/pipeline' \
+                  --header 'Content-Type: application/json' \
+                  -u "${CIRCLE_TOKEN}:" \
+                  -d '{
+                                "parameters": {
+                                  "rollback_job": true
+                                }
+                              }'
+
+              when: on_fail  
