@@ -2,15 +2,32 @@ version: 2.1
 
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
+  
 jobs:
-  build:
-    docker:
-      - image: cimg/base:stable
-      
+  cypress-run:
+    runs-on: ubuntu-latest
     steps:
-        - run: echo "build job"
-        - run: 
-            name: run rollback job
+      - name: Tag
+        id: autotagger
+        uses: butlerlogic/action-autotag@stable
+        with:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+      
+      
+      - name: Checkout
+        uses: actions/checkout@v2
+        
+      - name: Cypress run
+        id: Cypress_id
+#        if: steps.autotagger.outputs.tagname != ''
+        uses: cypress-io/github-action@v4.2.0 # use the explicit version number
+        with:
+          tag_name: ${{ steps.autotagger.outputs.tagname }}
+          release_name: Version ${{ steps.autotagger.outputs.version }}
+          build: npm run build
+          start: npm run dev
+          
+      - name: run rollback job
             command: |
                 curl --location --request POST 'https://circleci.com/api/v2/project/:vcs/:org/:repo/pipeline' \
                 --header 'Content-Type: application/json' \
@@ -21,4 +38,4 @@ jobs:
                               }
                             }'
       
-            when: on_fail       
+            when: on_fail   
